@@ -13,6 +13,26 @@
           <!-- This is where you will write the code to render a Bootstrap 
           Table that contains all the information from the 
           cafe-data.csv file. -->
+          <tr>
+            {% for cafe in cafes[0] %}
+              <td>{{ cafe }}</td>
+            {% endfor %}
+
+          </tr>
+          </tr>
+          {% for cafe in cafes[1:] %}
+           <tr>
+            <td>{{ cafe[0] }}</td>
+    
+
+            <td><a href="{{ cafe[1] }}" target="_blank">Maps Link</a></td>
+            <td>{{ cafe[2] }}</td>
+            <td>{{ cafe[3] }}</td>
+            <td>{{ cafe[4] }}</td>
+            <td>{{ cafe[5] }}</td>
+            <td>{{ cafe[6] }}</td>
+           </tr>
+          {% endfor %}
   	  </table>
 
       <p><a href="#">Return to index page</a></p>
