@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 import csv
 
@@ -25,8 +25,14 @@ Bootstrap5(app)
 
 class CafeForm(FlaskForm):
     cafe = StringField('Cafe name', validators=[DataRequired()])
+    
+    location = StringField("Location URL", validators=[DataRequired()])
+    open_time = StringField("Open Time e.g. 8AM", validators=[DataRequired()])
+    closing_time = StringField("Closing Time e.g. 5:30PM", validators=[DataRequired()])
+    coffee_rating = SelectField("Coffe Rating", choices=[("0", "✘"),("1", "☕️"),("2", "☕️☕️"),("3", "☕️☕️☕️"),("4", "☕️☕️☕️☕️"),("5", "☕️☕️☕️☕️☕️")],validators=[DataRequired()])
+    wifi_rating = SelectField("Wifi Strength Rating", choices=[('0','✘'),('1','💪'),('2','💪💪'),('3','💪💪💪'),('4','💪💪💪💪'),('5','💪💪💪💪💪')], validators=[DataRequired()])
+    power_rating = SelectField("Power Outlet Rating", choices=[('0','✘'),('1','🔌'),('2','🔌🔌'),('3','🔌🔌🔌'),('4','🔌🔌🔌🔌'),('5','🔌🔌🔌🔌🔌')], validators=[DataRequired()])
     submit = SubmitField('Submit')
-
 # Exercise:
 # add: Location URL, open time, closing time, coffee rating, wifi rating, power outlet rating fields
 # make coffee/wifi/power a select element with choice of 0 to 5.
