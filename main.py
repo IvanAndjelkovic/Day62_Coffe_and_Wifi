@@ -29,9 +29,9 @@ class CafeForm(FlaskForm):
     location = StringField("Location URL", validators=[DataRequired()])
     open_time = StringField("Open Time e.g. 8AM", validators=[DataRequired()])
     closing_time = StringField("Closing Time e.g. 5:30PM", validators=[DataRequired()])
-    coffee_rating = SelectField("Coffe Rating", choices=[("0", "✘"),("1", "☕️"),("2", "☕️☕️"),("3", "☕️☕️☕️"),("4", "☕️☕️☕️☕️"),("5", "☕️☕️☕️☕️☕️")],validators=[DataRequired()])
-    wifi_rating = SelectField("Wifi Strength Rating", choices=[('0','✘'),('1','💪'),('2','💪💪'),('3','💪💪💪'),('4','💪💪💪💪'),('5','💪💪💪💪💪')], validators=[DataRequired()])
-    power_rating = SelectField("Power Outlet Rating", choices=[('0','✘'),('1','🔌'),('2','🔌🔌'),('3','🔌🔌🔌'),('4','🔌🔌🔌🔌'),('5','🔌🔌🔌🔌🔌')], validators=[DataRequired()])
+    coffee_rating = SelectField("Coffe Rating", choices=[( "☕️"),( "☕️☕️"),( "☕️☕️☕️"),( "☕️☕️☕️☕️"),( "☕️☕️☕️☕️☕️")],validators=[DataRequired()])
+    wifi_rating = SelectField("Wifi Strength Rating", choices=[('✘'),('💪'),('💪💪'),('💪💪💪'),('💪💪💪💪'),('💪💪💪💪💪')], validators=[DataRequired()])
+    power_rating = SelectField("Power Outlet Rating", choices=[('✘'),('🔌'),('🔌🔌'),('🔌🔌🔌'),('🔌🔌🔌🔌'),('🔌🔌🔌🔌🔌')], validators=[DataRequired()])
     submit = SubmitField('Submit')
 # Exercise:
 # add: Location URL, open time, closing time, coffee rating, wifi rating, power outlet rating fields
@@ -48,11 +48,32 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add', methods=["GET", "POST"])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        print("True")
+        user_input = form.data
+        with open('cafe-data.csv', mode='a') as f:
+            f.write(f"\n{user_input['cafe']},{user_input['location']},{user_input['open_time']},{user_input['closing_time']},{user_input['coffee_rating']},{user_input['wifi_rating']},{user_input['power_rating']}")
+
+
+
+
+
+#         How the cycle works:
+# You type /add in your browser. This sends a GET request.
+
+# main.py sees the GET request, skips the validate_on_submit() block, and renders add.html.
+
+# You type something in the form and click Submit.
+
+# The HTML form sends a POST request back to /add.
+
+# main.py sees the POST request. form.validate_on_submit() returns True.
+
+# Your Python action (like saving to a CSV) runs, and then you redirect the user.
+
+  
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()
